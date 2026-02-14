@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <title>Login Corazón</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      font-family: Georgia, serif;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background-color: #fce7f3;
+      overflow: hidden;
+      position: relative;
+    }
+
+    /* Fondo decorativo */
+    body::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      opacity: 0.2;
+      background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23ec4899' fill-opacity='0.4'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/svg%3E");
+      pointer-events: none;
+    }
+
+    .card {
+      background: white;
+      padding: 2rem;
+      border-radius: 1.5rem;
+      border: 4px dashed #f472b6;
+      width: 100%;
+      max-width: 400px;
+      text-align: center;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+      z-index: 1;
+    }
+
+    h1 {
+      color: #db2777;
+      font-size: 1.8rem;
+      margin-bottom: 1.5rem;
+    }
+
+    input {
+      width: 100%;
+      padding: 0.8rem 1rem;
+      border-radius: 999px;
+      border: 2px solid #f9a8d4;
+      text-align: center;
+      font-size: 1.1rem;
+      outline: none;
+      color: #db2777;
+      transition: 0.3s;
+    }
+
+    input::placeholder {
+      color: #f9a8d4;
+    }
+
+    input:focus {
+      border-color: #ec4899;
+      box-shadow: 0 0 0 4px #fce7f3;
+    }
+
+    input.error {
+      border-color: #ef4444;
+      background: #fee2e2;
+      animation: shake 0.3s;
+    }
+
+    .heart-container {
+      margin: 1.5rem 0;
+      cursor: pointer;
+    }
+
+    .heart {
+      width: 90px;
+      height: 90px;
+      color: #22c55e;
+      fill: #22c55e;
+      animation: beat 1s infinite;
+      filter: drop-shadow(0 4px 10px rgba(0,0,0,0.2));
+    }
+
+    .heart.error {
+      color: #ef4444;
+      fill: #ef4444;
+      animation: shake 0.3s;
+    }
+
+    p {
+      color: #f472b6;
+      font-size: 0.9rem;
+      font-weight: bold;
+    }
+
+    @keyframes shake {
+      0%, 100% { transform: translateX(0); }
+      25% { transform: translateX(-5px); }
+      75% { transform: translateX(5px); }
+    }
+
+    @keyframes beat {
+      0%, 100% { transform: scale(1); }
+      25% { transform: scale(1.1); }
+      50% { transform: scale(1); }
+      75% { transform: scale(1.1); }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="card">
+    <h1>Ingresa nuestra<br>contraseña...</h1>
+
+    <input 
+      type="password" 
+      id="password" 
+      placeholder="Ingresa aquí..."
+    >
+
+    <div class="heart-container" id="submitBtn">
+      <i data-lucide="heart" class="heart" id="heartIcon"></i>
+    </div>
+
+    <p>Pista: Nuestra canción favorita</p>
+  </div>
+
+  <script>
+    lucide.createIcons();
+
+    const passwordInput = document.getElementById("password");
+    const heartIcon = document.getElementById("heartIcon");
+    const submitBtn = document.getElementById("submitBtn");
+
+    function onSuccess() {
+     // aquí puedes redirigir:
+      window.location.href = "albun.html";
+    }
+
+    function handleSubmit() {
+      const password = passwordInput.value;
+
+      if (password === "0209") {
+        onSuccess();
+      } else {
+        passwordInput.classList.add("error");
+        heartIcon.classList.add("error");
+        heartIcon.setAttribute("data-lucide", "heart-crack");
+        lucide.createIcons();
+
+        setTimeout(() => {
+          passwordInput.classList.remove("error");
+          heartIcon.classList.remove("error");
+          heartIcon.setAttribute("data-lucide", "heart");
+          lucide.createIcons();
+        }, 2000);
+      }
+    }
+
+    submitBtn.addEventListener("click", handleSubmit);
+
+    passwordInput.addEventListener("keypress", (e) => {
+      if (e.key === "Enter") {
+        handleSubmit();
+      }
+    });
+  </script>
+
+</body>
+</html>
